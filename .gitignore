@@ -1,4 +1,8 @@
 token.txt
 __pycache__/reddit.cpython-39.pyc
 img/
+<<<<<<< HEAD
 __pycache__/download_image_to_local_machine.cpython-39.pyc
+=======
+REWRITE_FROM-bot.js
+>>>>>>> 7ee08130e297545f1b080f5701dcdb0a26046ee9
