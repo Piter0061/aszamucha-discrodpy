@@ -2,7 +2,7 @@ import requests
 
 def download(url):
     path = "img/"
-    response = requests.get("https://i.imgur.com/ExdKOOz.png")
+    response = requests.get(url)
 
     filename = url.split('/')[3]
 

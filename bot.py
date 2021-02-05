@@ -24,7 +24,9 @@ async def on_message(message):
     content = message.content
 
     if content.startswith('hentai'):
-        await message.channel.send(REE.goReddit("hentai"))
+        henurl = REE.goReddit("hentai")
+        await message.channel.send(henurl)
+        download.download(henurl)
 
     elif content.startswith('huj'):
         await message.channel.send(REE.goReddit("gayporn"))
