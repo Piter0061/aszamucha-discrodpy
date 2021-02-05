@@ -6,6 +6,7 @@
 import discord
 import reddit as REE
 import download_image_to_local_machine as download
+import imgGO
 
 f = open("token.txt", "r")
 token = f.readline()
@@ -35,7 +36,9 @@ async def on_message(message):
         await message.channel.send(REE.goReddit("porn"))
 
     elif content.startswith('img'):
-        await message.channel.send("TO DO, YA FOCKING CUNT")
+        print(' '.join(message.content.split(' ')[1:]))
+        print(imgGO.FETCH(str(message.content.split(' ')[1:])))
+        await message.channel.send(imgGO.FETCH(' '.join(message.content.split(' ')[1:])))
 
     elif content.startswith('wiki'):
         await message.channel.send("ALSO TO DO, YA FOCKING CUNT")

@@ -20,9 +20,10 @@ def goReddit(sub):
     try:
         link = y["data"]["children"][randoompoost]["data"]["url_overridden_by_dest"]
     except:
-        link = "no-image"
+        link = y["data"]["children"][randoompoost+2]["data"]["url_overridden_by_dest"]
     finally:
         return(link)
-
+#################### RUN IF IN STANALONE MODE ####################
 if(__name__ == "__main__"):
     print(goReddit("hentai"))
+##################################################################
