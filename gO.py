@@ -27,6 +27,23 @@ def bibblia():
     if(r.status_code != 200):
         return('https://http.cat/' + r.status_code + '.jpg')
     return r.text.split('>')[2]
+
+def bibbliaPol():
+    a = int(random.random() * 10)
+    b = int(random.random() * 29)
+    url = "https://api.scripture.api.bible/v1/bibles/1c9761e0230da6e0-01/verses/JER."+ str(a) +"."+ str(b) +"?content-type=text&include-notes=false&include-titles=false&include-chapter-numbers=false&include-verse-numbers=true&include-verse-spans=false&use-org-id=false"
+    headers = {
+	        "Accept": "text/html",
+	        "User-Agent": "Chrome",
+            "api-key": "c210e5a07b06449eeb52e5a10f5e0260"
+	    }
+    r = requests.get(url, headers=headers)
+    if(r.status_code != 200):
+        return('https://http.cat/' + str(r.status_code) + '.jpg')
+    
+    #print(r.text)
+    retrn = r.json()
+    return retrn['data']['content']
     
 def goShibe():
     randoom = int(random.random() * 20)
@@ -73,6 +90,7 @@ def fetchJSON(url):
 
 #################### RUN IF IN STANALONE MODE ####################
 if(__name__ == "__main__"):
-    print(goReddit("hentai"))
-    print(goGpt('Kill me'))
+    #print(goReddit("hentai"))
+    #print(goGpt('Kill me'))
+    print(bibbliaPol())
 ##################################################################

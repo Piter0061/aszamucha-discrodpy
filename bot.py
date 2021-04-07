@@ -8,6 +8,7 @@ import gO as REE
 import download_image_to_local_machine as download
 import imgGO
 
+
 f = open("token.txt", "r")
 token = f.readline()
 
@@ -15,6 +16,8 @@ f1 = open("coolusers.txt", "r")
 coolusers = f1.readlines()
 
 client = discord.Client()
+
+
 
 @client.event
 async def on_ready():
@@ -83,7 +86,7 @@ async def on_message(message):
         await message.channel.send(REE.goShibe())
     
     elif content.startswith('biblia'):
-        await message.channel.send(REE.bibblia())
+        await message.channel.send(REE.bibbliaPol())
 
     elif content.startswith('fromwebsite'):
         await message.channel.send(imgGO.FETCH(mess))
