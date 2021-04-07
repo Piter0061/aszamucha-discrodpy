@@ -41,6 +41,17 @@ async def on_message(message):
     elif content.startswith('porn'):
         await message.channel.send(REE.goReddit("porn"))
 
+    elif content.startswith('gogoreddit'):
+        try:
+            await message.channel.send(REE.goReddit(mess))
+        except:
+            await message.channel.send('nie')
+    
+    elif content.startswith('gpt'):
+        try:
+            await message.channel.send(REE.goGpt(mess))
+        except:
+                await message.channel.send('nie')
     elif content.startswith('img'):
         print(mess)
         print(imgGO.FETCH(str('https://www.google.com/search?q='+ mess +'&tbm=isch&ved=2ahUKEwiD0uSA09LuAhVQyCoKHW29DjYQ2-cCegQIABAA&oq=kingus&gs_lcp=CgNpbWcQAzIECCMQJzICCAAyAggAMgIIADICCAAyAggAMgIIADICCAAyAggAMgIIAFCg6wNY-fADYJzyA2gAcAB4AIABYYgB8AOSAQE2mAEAoAEBqgELZ3dzLXdpei1pbWfAAQE&sclient=img&ei=Ay0dYMPEGNCQqwHt-rqwAw&bih=966&biw=1903&hl=en')))
@@ -70,7 +81,10 @@ async def on_message(message):
 
     elif content.startswith('shibe'):
         await message.channel.send(REE.goShibe())
+    
+    elif content.startswith('biblia'):
+        await message.channel.send(REE.bibblia())
 
-    elif content.startswith('imgfromwebsite'):
+    elif content.startswith('fromwebsite'):
         await message.channel.send(imgGO.FETCH(mess))
 client.run(token)

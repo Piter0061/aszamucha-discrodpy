@@ -1,2 +1,4 @@
 discord
 bs4
+apscheduler
+praw

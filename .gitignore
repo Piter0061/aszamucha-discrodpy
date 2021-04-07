@@ -5,3 +5,6 @@ __pycache__/download_image_to_local_machine.cpython-39.pyc
 REWRITE_FROM-bot.js
 __pycache__/
 coolusers.txt
+login.txt
+session.txt
+.ipynb_checkpoints/bot-checkpoint.py

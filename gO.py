@@ -16,6 +16,18 @@ def goReddit(sub):
     finally:
         return(link)
 
+
+def bibblia():
+    url = "https://labs.bible.org/api/?passage=random"
+    headers = {
+	        "Accept": "text/html",
+	        "User-Agent": "Chrome"
+	    }
+    r = requests.get(url, headers=headers)
+    if(r.status_code != 200):
+        return('https://http.cat/' + r.status_code + '.jpg')
+    return r.text.split('>')[2]
+    
 def goShibe():
     randoom = int(random.random() * 20)
     url = "http://shibe.online/api/shibes?count=21"
@@ -27,8 +39,27 @@ def goShibe():
     finally:
         return link
 
-
-
+def goGpt(mess):
+    try:
+        r = requests.post(
+            "https://api.deepai.org/api/text-generator",
+        data={
+            'text': mess,
+        },
+        headers={'api-key': '44aed190-70e4-4487-aed4-4675178e2df2'}
+        )
+        #print(r.json())
+        y = r.json()
+        retrn = y["output"]
+        #print(y["output"])
+        retrn = retrn[:500]
+        #retrn = r.json()
+    except:
+        #r.json()
+        #print('die in gO.py, goGpt, line 42 :)')
+        retrn = 'die in gO.py, goGpt, line 42 :)'
+    finally:
+        return retrn
 ########################### FETCH JSON ###########################
 def fetchJSON(url):
     headers = {
@@ -43,4 +74,5 @@ def fetchJSON(url):
 #################### RUN IF IN STANALONE MODE ####################
 if(__name__ == "__main__"):
     print(goReddit("hentai"))
+    print(goGpt('Kill me'))
 ##################################################################
