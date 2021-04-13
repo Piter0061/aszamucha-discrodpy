@@ -1,4 +1,5 @@
-discord
-bs4
-apscheduler
-praw
+bs4==0.0.1
+discord==1.0.1
+discord.py==1.6.0
+requests==2.25.1
+json5==0.9.5
