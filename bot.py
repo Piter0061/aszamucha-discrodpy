@@ -7,8 +7,8 @@ import discord
 import gO as REE
 import download_image_to_local_machine as download
 import imgGO
-import giveMeYourHentai as uwugive
-
+##import giveMeYourHentai as uwugive
+import new_day_image_creator
 f = open("token.txt", "r")
 token = f.readline()
 
@@ -90,4 +90,8 @@ async def on_message(message):
 
     elif content.startswith('fromwebsite'):
         await message.channel.send(imgGO.FETCH(mess))
+    
+    elif content.startswith('time'):
+        new_day_image_creator.doTime()
+        await message.channel.send(file=discord.File('time.png'))
 client.run(token)
