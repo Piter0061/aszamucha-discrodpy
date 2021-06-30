@@ -7,7 +7,7 @@ import discord
 import gO as REE
 import download_image_to_local_machine as download
 import imgGO
-
+import giveMeYourHentai as uwugive
 
 f = open("token.txt", "r")
 token = f.readline()
@@ -17,7 +17,7 @@ coolusers = f1.readlines()
 
 client = discord.Client()
 
-
+#uwugive.start()
 
 @client.event
 async def on_ready():

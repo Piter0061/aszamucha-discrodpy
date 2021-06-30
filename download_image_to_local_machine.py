@@ -1,4 +1,6 @@
 import requests
+import os
+
 
 def download(url):
     path = "img/"
@@ -7,11 +9,16 @@ def download(url):
     filename = url.split('/')[3]
 
     fullfilename = path + filename
-    file = open(fullfilename, "wb")
+    if os.path.isfile(fullfilename) == True:
+        print("jest jusz owo")
+        return 1
+    else:
 
-    file.write(response.content)
+        file = open(fullfilename, "wb")
 
-    file.close()
+        file.write(response.content)
+
+        file.close()
 
 if(__name__ == "__main__"):
     print("starting to download")
