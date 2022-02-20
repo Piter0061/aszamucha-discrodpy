@@ -3,12 +3,14 @@
 ##              || PYTHON EDITION ||              ##
 ##                    by peter                    ##
 ####################################################
-import discord
+import discord     #discord[voice]  needed!!
 import gO as REE
 import download_image_to_local_machine as download
 import imgGO
 ##import giveMeYourHentai as uwugive
 import new_day_image_creator
+import musicalbaba
+
 f = open("token.txt", "r")
 token = f.readline()
 
@@ -18,6 +20,7 @@ coolusers = f1.readlines()
 client = discord.Client()
 
 #uwugive.start()
+
 
 @client.event
 async def on_ready():
@@ -94,4 +97,32 @@ async def on_message(message):
     elif content.startswith('time'):
         new_day_image_creator.doTime()
         await message.channel.send(file=discord.File('time.png'))
+    ############# music!!! ##############################
+
+    elif content.startswith('grajgrajgraj'):
+        await message.channel.send("pobieram!")
+        musicFilename = musicalbaba.downloadVideo(mess)            #download the song, ough that gotta hurt the space. limited to 15MB in musicalbaba.py ;)
+        if musicFilename != 1:                                     #if didnt fail
+            await message.channel.send("granie panie.")
+            #######################################################
+            if message.author.voice is None:                       #no one in voice, why connect
+                await message.channel.send("10101010100001 nie ma cie nigdzie :sex: ")
+                return
+            #######################################################
+            if message.guild.voice_client is None:                #if NOT connected then..
+                await message.author.voice.channel.connect()      #connect
+            try:
+                message.guild.voice_client.play(discord.FFmpegOpusAudio(musicFilename)) #TRY to play downloaded music
+            except:
+                await message.channel.send("nje.")                                    #didnt work
+                #await message.guild.voice_client.disconnect()
+        else:
+            await message.channel.send("za grube")
+
+    elif content.startswith('icsobie'):
+        if message.guild.voice_client is None:
+            return
+        await message.guild.voice_client.disconnect()
+        #await message.channel.send("pubum")
+
 client.run(token)

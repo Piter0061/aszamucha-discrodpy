@@ -9,3 +9,7 @@ session.txt
 .ipynb_checkpoints/
 .vscode/settings.json
 .vscode/
+time.png
+gay-field/__pycache__/
+gay-field/token.txt
+music/
