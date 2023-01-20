@@ -4,23 +4,38 @@
 ##                    by peter                    ##
 ####################################################
 import discord     #discord[voice]  needed!!
+from discord.ext import commands
 import gO as REE
 import download_image_to_local_machine as download
 import imgGO
 ##import giveMeYourHentai as uwugive
 import new_day_image_creator
 import musicalbaba
+import asyncio
 
 f = open("token.txt", "r")
 token = f.readline()
 
-f1 = open("coolusers.txt", "r")
-coolusers = f1.readlines()
+#f1 = open("coolusers.txt", "r")
+coolusers = "pie"
 
-client = discord.Client()
+#new in discordpy 1.5
+#client = discord.Client()
+intents = discord.Intents.default()
+intents.message_content = True
 
+client = discord.Client(intents=intents)
 #uwugive.start()
 
+#d = {'guild': ["song1", "song2", "song3"]}
+queye = {'754731874097823916': [" "]}
+
+class Buttons(discord.ui.View):
+    def __init__(self, *, timeout=None):
+        super().__init__(timeout=timeout)
+    @discord.ui.button(label="Button",style=discord.ButtonStyle.gray)
+    async def gray_button(self,button:discord.ui.Button,interaction:discord.Interaction):
+        await interaction.response.edit_message(content=f"This is an edited button response!")
 
 @client.event
 async def on_ready():
@@ -99,30 +114,117 @@ async def on_message(message):
         await message.channel.send(file=discord.File('time.png'))
     ############# music!!! ##############################
 
-    elif content.startswith('grajgrajgraj'):
-        await message.channel.send("pobieram!")
-        musicFilename = musicalbaba.downloadVideo(mess)            #download the song, ough that gotta hurt the space. limited to 15MB in musicalbaba.py ;)
-        if musicFilename != 1:                                     #if didnt fail
-            await message.channel.send("granie panie.")
-            #######################################################
-            if message.author.voice is None:                       #no one in voice, why connect
-                await message.channel.send("10101010100001 nie ma cie nigdzie :sex: ")
-                return
-            #######################################################
-            if message.guild.voice_client is None:                #if NOT connected then..
-                await message.author.voice.channel.connect()      #connect
-            try:
-                message.guild.voice_client.play(discord.FFmpegOpusAudio(musicFilename)) #TRY to play downloaded music
-            except:
-                await message.channel.send("nje.")                                    #didnt work
-                #await message.guild.voice_client.disconnect()
+   
+
+
+    elif content.startswith('sk ') or content.startswith('grajgrajgraj'):
+        guild = str(message.guild.id)
+        #queye[guild] = []
+        print(f'line 114 guild: {guild}')
+        #if guild in queye:
+        #    queye[guild].append(mess)
+        #else:
+        #    queye[guild] = [mess]
+        print(f'line 119: {queye[guild]}')
+        await message.channel.typing()
+        if message.author.voice is None:                       
+            await message.channel.send("co ty pierdolisz") ##10101010100001 nie ma cie nigdzie :sex: 
+            return
+
+        if message.guild.voice_client is None:
+            voice = await message.author.voice.channel.connect()
+            #if queye[guild] == []:
+            #    song = mess
+            #else:
+            #    song = queye[guild]
+        
+        if not message.guild.voice_client.is_playing():
+            if queye[guild] == [" "]:
+                await message.channel.send("pobieram!")
+                musicFilename = musicalbaba.downloadVideo(mess)            
+                if musicFilename != 1:                                    
+                    try:
+                        await message.channel.send("granie panie.")
+                        voice.play(discord.FFmpegOpusAudio(musicFilename), after=lambda e: play_next(voice, guild))
+                        print(message.guild.voice_client.channel)
+                    except:
+                        await message.channel.send("nje.") #  ¯\_(ツ)_/¯
+                else:
+                    await message.channel.send("błąd jakiś")
+            else:
+                play_next(voice, guild)
         else:
-            await message.channel.send("za grube")
+            #if len(queye[guild]) == 1:
+            #    queye[guild] = [mess]
+            #else:
+            queye[guild].append(mess)
+            await message.channel.send(f'dodaje **"{mess}"** do KOLEJKI (*WHATT????* tego typu)')
+            print(f'line 153: {queye[guild]}')
+
+
+    elif content.startswith('pobierz'):
+        await message.channel.send("pobieram!")
+        musicFilename = musicalbaba.downloadVideo(mess)            
+        if musicFilename != 1:                                    
+            try:
+                await message.channel.send(file=discord.File(musicFilename))
+            except:
+                await message.channel.send("nje.")
+        else:
+            await message.channel.send("błąd pobierania")
+        
 
     elif content.startswith('icsobie'):
         if message.guild.voice_client is None:
             return
         await message.guild.voice_client.disconnect()
+        queye[str(message.guild.id)] = [" "]
         #await message.channel.send("pubum")
+
+    elif content.startswith('skip'):
+        print("skipuje")
+        if message.guild.voice_client is None:
+            return
+        await message.channel.send("skipuje")
+        await message.guild.voice_client.stop()
+        play_next(message.guild.voice_client, str(message.guild.id))
+    
+    elif content.startswith('aszysko'):
+        if message.guild.voice_client is None or not message.guild.voice_client.is_playing():
+            embed=discord.Embed(title="** **", url="https://discord.gg/D7R2aqJCX6", description="** **", color=0xea48e7)
+            embed.set_author(name="Nic nie gra")
+            embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/759853703397769246/1041140275436859573/IMG_0650.jpg")
+            embed.set_footer(text="asza mucha")
+            embed.add_field(name="** **", value="** **", inline=True)
+            await message.channel.send(embed=embed,view=Buttons())
+        else:
+            embed=discord.Embed(title="Moc, energia, amfetamina", url="", description="** **", color=0xff0000)
+            embed.set_author(name="Obecnie gra:")
+            embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/759853703397769246/1041140275436859573/IMG_0650.jpg")
+            embed.set_footer(text="asza mucha")
+            embed.add_field(name="next:", value="moc, energia, amfetamina", inline=True)
+            await message.channel.send(embed=embed)
+
+def play_next(voice, guild):
+    print("play_next")
+    if queye[guild] == [" "]:
+        print("end of quellelele")
+        #coro = some_channel.send('Song is done!')
+        #fut = asyncio.run_coroutine_threadsafe(coro, client.loop)
+        #try:
+        #    fut.result()
+        #except:
+        #    # an error happened sending the message
+        #    pass
+    else:
+        musicFilename = musicalbaba.downloadVideo(queye[guild][1]) ##queye[guild][len(queye[guild])-1]
+        if not len(queye[guild]) == 1:
+            queye[guild].remove(queye[guild][1])
+        else:
+            queye[guild] = [" "]
+        print(f'line 193 queue: {queye[guild]}')
+
+        voice.play(discord.FFmpegOpusAudio(musicFilename), after=lambda e: play_next(voice, guild))
+    
 
 client.run(token)

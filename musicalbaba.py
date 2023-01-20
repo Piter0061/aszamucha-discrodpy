@@ -16,7 +16,7 @@ def my_hook(d):
         print('Done downloading')
 
 ydl_opts = {
-        'format': '140[filesize<15M]',
+        'format': '140[filesize<100M]',
         #'postprocessors': [{
         #    'key': 'FFmpegExtractAudio',
         #    'preferredcodec': 'm4a',
@@ -27,17 +27,28 @@ ydl_opts = {
     'progress_hooks': [my_hook]
     }
 
+def search(arg):
+    with YoutubeDL(ydl_opts) as ydl:
+        try:
+            video = ydl.extract_info(f"ytsearch:{arg}", download=False)['entries'][0]
+        except:
+            video = ydl.extract_info(arg, download=False)
+
+    return video
+
 def downloadVideo(link):
     try:
         li = ["sex"]
         li[0] = link
         with YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(link, download=True)
+            search = ydl.extract_info(f"ytsearch:{link}", download=False)['entries'][0]
+            info = ydl.extract_info(search["webpage_url"], download=True)
             return ydl.prepare_filename(info)
     except:
         print("cannot download")
         return 1
                 
-
-downloadVideo('https://www.youtube.com/watch?v=ruQRvlNp-xQ')
+##print(search("dupalipa")["webpage_url"])
+print(search("dupalipa")["title"])
+#downloadVideo('https://www.youtube.com/watch?v=ruQRvlNp-xQ'
 
